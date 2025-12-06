@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/ch.elf",
+            "device": "STM32F072CB",
+            "v1": false,
+            "svdFile": "${workspaceFolder}/STM32F0x2.svd",
+            "configFiles": ["interface/stlink.cfg", "target/stm32f0x.cfg"],
+            "rtos": "auto",
+            "servertype": "openocd"
+        },
+        {
+            "name": "Attach",
+            "type": "cortex-debug",
+            "request": "attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/ch.elf",
+            "device": "STM32F072CB",
+            "v1": false,
+            "svdFile": "${workspaceFolder}/STM32F0x2.svd",
+            "configFiles": ["interface/stlink.cfg", "target/stm32f0x.cfg"],
+            "rtos": "auto",
+            "servertype": "openocd"
+        }
+    ]
+}
