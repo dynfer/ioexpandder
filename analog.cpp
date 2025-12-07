@@ -1,5 +1,6 @@
 #include "analog.h"
 #include "io.h"
+#include "util.h"
 
 constexpr uint8_t ADC_CHANNELS = 10;
 constexpr uint8_t ADC_OVERSAMPLE = 80;
@@ -57,27 +58,27 @@ static void AnalogSampleFinish()
         switch (ch)
         {
         case 0:
-            g_inputs.setAnalogInputValue(4, value_mV);
+            g_inputs.setAnalogInputValue(4,  getOutputValue(value_mV, ch));
             break;
         case 1:
-            g_inputs.setAnalogInputValue(1, value_mV);
+            g_inputs.setAnalogInputValue(1,  getOutputValue(value_mV, ch));
             break;
         case 2:
-            g_inputs.setAnalogInputValue(2, value_mV);
+            g_inputs.setAnalogInputValue(2,  getOutputValue(value_mV, ch));
             break;
         case 3:
-            g_inputs.setAnalogInputValue(0, value_mV);
+            g_inputs.setAnalogInputValue(0,  getOutputValue(value_mV, ch));
             break;
         case 4:
-            g_inputs.setAnalogInputValue(5, value_mV);
+            g_inputs.setAnalogInputValue(5,  getOutputValue(value_mV, ch));
             break;
         case 5:
-            g_inputs.setAnalogInputValue(3, value_mV);
+            g_inputs.setAnalogInputValue(3,  getOutputValue(value_mV, ch));
             break;
         default:
             break;
         }
-        g_inputs.setAnalogTempInputValue(ch - 6, value_mV);
+        g_inputs.setAnalogTempInputValue(ch - 6, getOutputValue(value_mV, ch, true));
     }
 }
 

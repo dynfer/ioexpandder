@@ -127,7 +127,10 @@ CPPSRC = $(ALLCPPSRC) \
           io.cpp \
           analog.cpp \
           digitals.cpp \
-          usb_config.cpp
+          usb_config.cpp \
+          flash.cpp \
+          config.cpp \
+          util.cpp
 
 # List ASM source files here.
 ASMSRC = $(ALLASMSRC)
@@ -165,7 +168,7 @@ UINCDIR =
 ULIBDIR =
 
 # List all user libraries here
-ULIBS =
+ULIBS = -lm
 
 #
 # End of user section

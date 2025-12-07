@@ -5,12 +5,14 @@
 #include "analog.h"
 #include "digitals.h"
 #include "usb_config.h"
+#include "config.h"
 
 int main(void) {
   halInit();
   chSysInit();
   palSetPadMode(GPIOA, 15, PAL_MODE_OUTPUT_PUSHPULL);
 
+  (void)getConfig();
   (void)getInputs();
 
 

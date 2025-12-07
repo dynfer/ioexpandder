@@ -3,6 +3,14 @@
 #include "ch.h"
 #include <array>
 
+enum class scaleType : uint8_t
+{
+    x10 = 0,
+    x100,
+    x1000,
+    x10000
+};
+
 class digitalInput
 {
 private:
@@ -22,7 +30,12 @@ private:
     ioportid_t m_port;
     iopadid_t m_pad;
     uint16_t m_value;
-
+    uint16_t m_lowVolt;
+    uint16_t m_highVolt;
+    uint16_t m_lowValue;
+    uint16_t m_highValue;
+    scaleType m_scale;
+    uint16_t m_outputValue;
 public:
     analogInput(ioportid_t port, iopadid_t pad);
     void setValue(uint16_t value) { m_value = value; }
