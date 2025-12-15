@@ -55,30 +55,43 @@ static void AnalogSampleFinish()
     for (size_t ch = 0; ch < ADC_CHANNELS; ch++)
     {
         const uint16_t value_mV = static_cast<uint16_t>(AverageSamples(adcBuffer, ch) * 1000.0f);
-        switch (ch)
+        if (ch < 6)
         {
-        case 0:
-            g_inputs.setAnalogInputValue(4,  getOutputValue(value_mV, ch));
-            break;
-        case 1:
-            g_inputs.setAnalogInputValue(1,  getOutputValue(value_mV, ch));
-            break;
-        case 2:
-            g_inputs.setAnalogInputValue(2,  getOutputValue(value_mV, ch));
-            break;
-        case 3:
-            g_inputs.setAnalogInputValue(0,  getOutputValue(value_mV, ch));
-            break;
-        case 4:
-            g_inputs.setAnalogInputValue(5,  getOutputValue(value_mV, ch));
-            break;
-        case 5:
-            g_inputs.setAnalogInputValue(3,  getOutputValue(value_mV, ch));
-            break;
-        default:
-            break;
+            switch (ch)
+            {
+            case 0:
+                g_inputs.setAnalogVolt(4, value_mV);
+                g_inputs.setAnalogInputValue(4, getOutputValue(value_mV, ch));
+                break;
+            case 1:
+                g_inputs.setAnalogVolt(1, value_mV);
+                g_inputs.setAnalogInputValue(1, getOutputValue(value_mV, ch));
+                break;
+            case 2:
+                g_inputs.setAnalogVolt(2, value_mV);
+                g_inputs.setAnalogInputValue(2, getOutputValue(value_mV, ch));
+                break;
+            case 3:
+                g_inputs.setAnalogVolt(0, value_mV);
+                g_inputs.setAnalogInputValue(0, getOutputValue(value_mV, ch));
+                break;
+            case 4:
+                g_inputs.setAnalogVolt(5, value_mV);
+                g_inputs.setAnalogInputValue(5, getOutputValue(value_mV, ch));
+                break;
+            case 5:
+                g_inputs.setAnalogVolt(3, value_mV);
+                g_inputs.setAnalogInputValue(3, getOutputValue(value_mV, ch));
+                break;
+            default:
+                break;
+            }
         }
-        g_inputs.setAnalogTempInputValue(ch - 6, getOutputValue(value_mV, ch, true));
+        else
+        {
+            g_inputs.setAnalogTempVolt(ch - 6, value_mV);
+            g_inputs.setAnalogTempInputValue(ch - 6, getOutputValue(value_mV, ch, true));
+        }
     }
 }
 

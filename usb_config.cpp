@@ -3,7 +3,9 @@
 #include "usb_config.h"
 #include "usbcfg.h"
 #include "io.h"
+#include "api.h"
 
+/*
 static void writeLiteral(BaseChannel *chp, const char *s)
 {
     // use sizeof(...) - 1 for literals so we don't need strlen
@@ -63,10 +65,26 @@ static void UsbPrintInputs(void)
     }
     writeNewline(chp);
 
+    writeLiteral(chp, "AIV: ");
+    for (uint8_t i = 0; i < 6; i++)
+    {
+        writeU16(chp, g_inputs.getAnalogVolt(i));
+        writeSpace(chp);
+    }
+    writeNewline(chp);
+
     // Temp analog inputs (PA6, PA7, PB0, PB1)
     writeLiteral(chp, "TEMP: ");
     for (uint8_t i = 0; i < 4; ++i) {
         writeU16(chp, g_inputs.getAnalogTempInputValue(i));
+        writeSpace(chp);
+    }
+    writeNewline(chp);
+
+    writeLiteral(chp, "ATV: ");
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        writeU16(chp, g_inputs.getAnalogTempVolt(i));
         writeSpace(chp);
     }
     writeNewline(chp);
@@ -81,6 +99,7 @@ static void UsbPrintInputs(void)
     writeNewline(chp);
     writeNewline(chp);
 }
+*/
 
 static THD_WORKING_AREA(waUsbThread, 256);
 static THD_FUNCTION(UsbThread, arg)
@@ -88,14 +107,37 @@ static THD_FUNCTION(UsbThread, arg)
 
     (void)arg;
     chRegSetThreadName("USB Thread");
+
+    static api apiInstance;
+
     while (true)
     {
         /* Check if the USB is active (enumerated and configured). */
         if (usbGetDriverStateI(serusbcfg.usbp) == USB_ACTIVE)
         {
-            UsbPrintInputs();   
+            //UsbPrintInputs();
+            uint8_t rx;
+            if (chnReadTimeout(&SDU1, &rx, 1, TIME_INFINITE) == 1)
+            {
+                switch (rx)
+                {
+                case static_cast<uint8_t>(apicommand::getData):
+                    apiInstance.getData();
+                    apiInstance.sendData();
+                    break;
+                case static_cast<uint8_t>(apicommand::getCals):
+                    apiInstance.getCals();
+                    apiInstance.sendCals();
+                    break;
+                case static_cast<uint8_t>(apicommand::writeCals):
+                    apiInstance.writeCals();
+                    break;
+                default:
+                    break;
+                }
+            }
         }
-        chThdSleepMilliseconds(100);
+        chThdSleepMilliseconds(20);
     }
 }
 

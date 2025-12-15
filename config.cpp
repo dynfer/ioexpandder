@@ -1,30 +1,115 @@
+// config.cpp
 #include "config.h"
 #include "flash.h"
+#include <cstring>
+#include <cstdint>
 
-constexpr uintptr_t addr = 0x0801F800;
+/* Same address you already use */
+constexpr uintptr_t CFG_ADDR = 0x0801F800;   // last page start
+constexpr uint32_t  CFG_MAGIC = 0x43464731;  // 'CFG1'
+constexpr uint16_t  CFG_VERSION = 1;
 
-void config::loadDefault()
+/* Small CRC32 (standard polynomial 0xEDB88320). Good enough for config. */
+static uint32_t crc32(const uint8_t* data, size_t len)
 {
+    uint32_t crc = 0xFFFFFFFFu;
+    for (size_t i = 0; i < len; i++)
+    {
+        crc ^= data[i];
+        for (int b = 0; b < 8; b++)
+        {
+            uint32_t mask = -(crc & 1u);
+            crc = (crc >> 1) ^ (0xEDB88320u & mask);
+        }
+    }
+    return ~crc;
+}
+
+static const ConfigFlashImage* flashImage()
+{
+    return reinterpret_cast<const ConfigFlashImage*>(CFG_ADDR);
+}
+
+configAnalog::configAnalog()
+{
+    for (auto &cal : m_analogCals)
+    {
+        cal.factor  = scaling::x1;
+        cal.highCal = 300U;
+        cal.highV   = 4650U;
+        cal.lowCal  = 20U;
+        cal.lowV    = 500U;
+    }
+    for (auto &ntcCal : m_ntcCals)
+    {
+        ntcCal.r1 = 32000U;
+        ntcCal.r2 = 16000U;
+        ntcCal.r3 = 2000U;
+        ntcCal.t1 = -40;
+        ntcCal.t2 = 18;
+        ntcCal.t3 = 70;
+    }
+}
+
+bool config::isFlashValid() const
+{
+    const ConfigFlashImage* img = flashImage();
+
+    if (img->magic != CFG_MAGIC) return false;
+    if (img->version != CFG_VERSION) return false;
+    if (img->size != sizeof(configAnalog)) return false;
+
+    const uint32_t calc = crc32(reinterpret_cast<const uint8_t*>(&img->analog), sizeof(configAnalog));
+    return (calc == img->crc);
+}
+
+void config::writeImageToFlash(const configAnalog& cfg)
+{
+    ConfigFlashImage img{};
+    img.magic   = CFG_MAGIC;
+    img.version = CFG_VERSION;
+    img.size    = sizeof(configAnalog);
+    img.analog  = cfg;
+    img.crc     = crc32(reinterpret_cast<const uint8_t*>(&img.analog), sizeof(configAnalog));
+
     Flash::ErasePage(63);
-    m_analogConfig = {};
-    Flash::Write(addr, reinterpret_cast<uint8_t*>(&m_analogConfig), sizeof(configAnalog));
+    Flash::Write(CFG_ADDR, reinterpret_cast<uint8_t*>(&img), sizeof(img));
 }
 
 void config::loadConfigFromFlash()
 {
-    m_analogConfig = *reinterpret_cast<configAnalog*>(addr);
+    // only call this if isFlashValid() is true
+    m_analogConfig = flashImage()->analog;
 }
 
-void config::saveConfigToflash(uint8_t* buffer)
+void config::save()
 {
-    Flash::ErasePage(63);
-    Flash::Write(addr, buffer, sizeof(configAnalog));
-    m_analogConfig = *reinterpret_cast<configAnalog*>(addr);
+    writeImageToFlash(m_analogConfig);
+    // re-read from flash if you want to be 100% sure it matches:
+    // loadConfigFromFlash();
+}
+
+void config::factoryReset()
+{
+    configAnalog defaults;        // ctor sets your defaults
+    m_analogConfig = defaults;
+    writeImageToFlash(m_analogConfig);
 }
 
 config::config()
 {
-    loadConfigFromFlash();
+    if (isFlashValid())
+    {
+        loadConfigFromFlash();
+    }
+    else
+    {
+        // FIRST BOOT AFTER PROGRAMMING (or after struct/version change):
+        // create defaults in RAM and persist ONCE
+        configAnalog defaults;
+        m_analogConfig = defaults;
+        writeImageToFlash(m_analogConfig);
+    }
 }
 
 config &getConfig()

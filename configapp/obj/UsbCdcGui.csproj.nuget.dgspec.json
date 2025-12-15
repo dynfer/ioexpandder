@@ -1,0 +1,81 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/denes/ioexpander/configapp/UsbCdcGui.csproj": {}
+  },
+  "projects": {
+    "/home/denes/ioexpander/configapp/UsbCdcGui.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/denes/ioexpander/configapp/UsbCdcGui.csproj",
+        "projectName": "UsbCdcGui",
+        "projectPath": "/home/denes/ioexpander/configapp/UsbCdcGui.csproj",
+        "packagesPath": "/home/denes/.nuget/packages/",
+        "outputPath": "/home/denes/ioexpander/configapp/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/denes/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0-windows"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0-windows7.0": {
+            "targetAlias": "net8.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "System.IO.Ports": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.22, 8.0.22]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WindowsForms": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/denes/.dotnet/sdk/8.0.416/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configapp", "configapp", "{ECBFECFF-E954-5849-7CE2-34E809ACF87D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsbCdcGui", "configapp\UsbCdcGui.csproj", "{D90185B9-C546-0F2D-D2F2-B8A313C3BD12}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D90185B9-C546-0F2D-D2F2-B8A313C3BD12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D90185B9-C546-0F2D-D2F2-B8A313C3BD12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D90185B9-C546-0F2D-D2F2-B8A313C3BD12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D90185B9-C546-0F2D-D2F2-B8A313C3BD12}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D90185B9-C546-0F2D-D2F2-B8A313C3BD12} = {ECBFECFF-E954-5849-7CE2-34E809ACF87D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA0FEB3C-B578-4292-8BF4-298AE90860E6}
+	EndGlobalSection
+EndGlobal

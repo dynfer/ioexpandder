@@ -20,8 +20,8 @@ private:
 
 public:
     digitalInput(ioportid_t port, iopadid_t pad);
-    void checkState() { m_state = palReadPad(m_port, m_pad); }
-    bool getState() const { return m_state; }
+    void checkState() { m_state = palReadPad(m_port, m_pad); };
+    bool getState() const { return m_state; };
 };
 
 class analogInput
@@ -36,10 +36,14 @@ private:
     uint16_t m_highValue;
     scaleType m_scale;
     uint16_t m_outputValue;
+    uint16_t m_volt;
+
 public:
     analogInput(ioportid_t port, iopadid_t pad);
-    void setValue(uint16_t value) { m_value = value; }
-    uint16_t getValue() const { return m_value; }
+    void setValue(uint16_t value) { m_value = value; };
+    void setVoltage(uint16_t volt) { m_volt = volt; };
+    uint16_t getValue() const { return m_value; };
+    uint16_t getVoltage() const { return m_volt; };
 };
 
 class analogTempInput
@@ -48,11 +52,14 @@ private:
     ioportid_t m_port;
     iopadid_t m_pad;
     uint16_t m_value;
+    uint16_t m_volt;
 
 public:
     analogTempInput(ioportid_t port, iopadid_t pad);
-    void setValue(uint16_t value) { m_value = value; }
-    uint16_t getValue() const { return m_value; }
+    void setValue(uint16_t value) { m_value = value; };
+    void setVoltage(uint16_t volt) { m_volt = volt; };
+    uint16_t getValue() const { return m_value; };
+    uint16_t getVoltage() const { return m_volt; };
 };
 
 class output
@@ -73,7 +80,7 @@ public:
         if (m_channel != 0)
             m_isPwm = enable;
     }
-    void setPwmDc(uint8_t dc) { m_currentDc = dc; }
+    void setPwmDc(uint8_t dc) { m_currentDc = dc; };
 };
 
 class inputs
@@ -86,14 +93,18 @@ private:
 
 public:
     inputs();
-    void setAnalogInputValue(uint8_t index, uint16_t value) { m_analogInputs[index].setValue(value); }
-    void setAnalogTempInputValue(uint8_t index, uint16_t value) { m_analogTempInputs[index].setValue(value); }
-    uint16_t getAnalogInputValue(uint8_t index) const { return m_analogInputs[index].getValue(); }
-    uint16_t getAnalogTempInputValue(uint8_t index) const { return m_analogTempInputs[index].getValue(); }
-    void setOutputDc(uint8_t index, uint8_t dc) { m_outputs[index].setPwmDc(dc); }
-    void enableOutputPwm(uint8_t index, bool enable) { m_outputs[index].enablePwm(enable); }
-    void toggleOutput(uint8_t index, bool state) { m_outputs[index].toggleOutput(state); }
-    bool getDigitalInputState(uint8_t index) const { return m_digitalInputs[index].getState(); }
+    void setAnalogInputValue(uint8_t index, uint16_t value) { m_analogInputs[index].setValue(value); };
+    void setAnalogTempInputValue(uint8_t index, uint16_t value) { m_analogTempInputs[index].setValue(value); };
+    void setAnalogVolt(uint8_t index, uint16_t volt) { m_analogInputs[index].setVoltage(volt); };
+    void setAnalogTempVolt(uint8_t index, uint16_t volt) { m_analogTempInputs[index].setVoltage(volt); };
+    uint16_t getAnalogInputValue(uint8_t index) const { return m_analogInputs[index].getValue(); };
+    uint16_t getAnalogTempInputValue(uint8_t index) const { return m_analogTempInputs[index].getValue(); };
+    uint16_t getAnalogVolt(uint8_t index) const { return m_analogInputs[index].getVoltage(); };
+    uint16_t getAnalogTempVolt(uint8_t index) const { return m_analogTempInputs[index].getVoltage(); };
+    void setOutputDc(uint8_t index, uint8_t dc) { m_outputs[index].setPwmDc(dc); };
+    void enableOutputPwm(uint8_t index, bool enable) { m_outputs[index].enablePwm(enable); };
+    void toggleOutput(uint8_t index, bool state) { m_outputs[index].toggleOutput(state); };
+    bool getDigitalInputState(uint8_t index) const { return m_digitalInputs[index].getState(); };
     void checkDigitalStates();
 };
 
