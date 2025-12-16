@@ -86,6 +86,52 @@
           }
         }
       }
+    },
+    "net8.0-windows7.0/win-x64": {
+      "runtime.linux-arm.runtime.native.System.IO.Ports/8.0.0": {
+        "type": "package"
+      },
+      "runtime.linux-arm64.runtime.native.System.IO.Ports/8.0.0": {
+        "type": "package"
+      },
+      "runtime.linux-x64.runtime.native.System.IO.Ports/8.0.0": {
+        "type": "package"
+      },
+      "runtime.native.System.IO.Ports/8.0.0": {
+        "type": "package",
+        "dependencies": {
+          "runtime.linux-arm.runtime.native.System.IO.Ports": "8.0.0",
+          "runtime.linux-arm64.runtime.native.System.IO.Ports": "8.0.0",
+          "runtime.linux-x64.runtime.native.System.IO.Ports": "8.0.0",
+          "runtime.osx-arm64.runtime.native.System.IO.Ports": "8.0.0",
+          "runtime.osx-x64.runtime.native.System.IO.Ports": "8.0.0"
+        }
+      },
+      "runtime.osx-arm64.runtime.native.System.IO.Ports/8.0.0": {
+        "type": "package"
+      },
+      "runtime.osx-x64.runtime.native.System.IO.Ports/8.0.0": {
+        "type": "package"
+      },
+      "System.IO.Ports/8.0.0": {
+        "type": "package",
+        "dependencies": {
+          "runtime.native.System.IO.Ports": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/System.IO.Ports.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "runtimes/win/lib/net8.0/System.IO.Ports.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      }
     }
   },
   "libraries": {
@@ -238,9 +284,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/denes/ioexpander/configapp/UsbCdcGui.csproj",
-      "projectName": "UsbCdcGui",
-      "projectPath": "/home/denes/ioexpander/configapp/UsbCdcGui.csproj",
+      "projectUniqueName": "/home/denes/ioexpander/configapp/UsbCdcConfigApp.csproj",
+      "projectName": "UsbCdcConfigApp",
+      "projectPath": "/home/denes/ioexpander/configapp/UsbCdcConfigApp.csproj",
       "packagesPath": "/home/denes/.nuget/packages/",
       "outputPath": "/home/denes/ioexpander/configapp/obj/",
       "projectStyle": "PackageReference",
@@ -292,6 +338,10 @@
         "warn": true,
         "downloadDependencies": [
           {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[8.0.22, 8.0.22]"
+          },
+          {
             "name": "Microsoft.WindowsDesktop.App.Ref",
             "version": "[8.0.22, 8.0.22]"
           }
@@ -305,6 +355,11 @@
           }
         },
         "runtimeIdentifierGraphPath": "/home/denes/.dotnet/sdk/8.0.416/PortableRuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "win-x64": {
+        "#import": []
       }
     }
   }

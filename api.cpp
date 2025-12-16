@@ -116,6 +116,7 @@ void api::sendCals()
     chnWrite(&SDU1, m_avCalsVolt.data(), m_avCalsVolt.size());
     chnWrite(&SDU1, m_ntcCals.data(), m_ntcCals.size());
     chnWrite(&SDU1, m_ntcCalsTemp.data(), m_ntcCalsTemp.size());
+    chnWrite(&SDU1, m_factors.data(), m_factors.size());
 }
 
 void api::writeCals()
@@ -210,7 +211,7 @@ void api::writeCals()
     {
         const size_t idx = i - 1;
         analogCal cal = g_config.getAnalogConfig(idx);
-        cal.factor = static_cast<scaling>(m_factors[i]);
+        cal.factor = static_cast<scaling>(m_calsBuffer[FACTORS_BASE + i]);
         g_config.setAnalogConfig(idx, cal);
     }
 

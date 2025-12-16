@@ -1,6 +1,6 @@
-/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcGui.exe
-/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcGui.dll
-/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcGui.deps.json
-/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcGui.runtimeconfig.json
-/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcGui.pdb
+/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcConfigApp.exe
+/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcConfigApp.dll
+/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcConfigApp.deps.json
+/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcConfigApp.runtimeconfig.json
+/home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/UsbCdcConfigApp.pdb
 /home/denes/ioexpander/configapp/bin/Release/net8.0-windows/win-x64/publish/System.IO.Ports.dll

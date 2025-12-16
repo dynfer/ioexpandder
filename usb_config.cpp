@@ -101,7 +101,7 @@ static void UsbPrintInputs(void)
 }
 */
 
-static THD_WORKING_AREA(waUsbThread, 256);
+static THD_WORKING_AREA(waUsbThread, 1024);
 static THD_FUNCTION(UsbThread, arg)
 {
 
