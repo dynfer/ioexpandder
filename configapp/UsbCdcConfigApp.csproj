@@ -7,6 +7,26 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+
+    <!-- Use .NET runtime on the machine -->
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+
+    <!-- Single EXE -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+
+    <!-- Size / output cleanup -->
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <PublishReadyToRun>false</PublishReadyToRun>
+
+    <!-- Reduce extra resources -->
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+
+    <!-- Try trimming (may break some WinForms/reflection scenarios) -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <TrimMode>partial</TrimMode>
   </PropertyGroup>
 
   <ItemGroup>

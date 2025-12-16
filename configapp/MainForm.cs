@@ -839,11 +839,11 @@ namespace UsbCdcConfigApp
 
         private static double ScalingDivisor(Scaling s) => s switch
         {
-            Scaling.X1 => 1.0,
-            Scaling.X10 => 10.0,
+            Scaling.X1 => 10000.0,
+            Scaling.X10 => 1000.0,
             Scaling.X100 => 100.0,
-            Scaling.X1000 => 1000.0,
-            Scaling.X10000 => 10000.0,
+            Scaling.X1000 => 10.0,
+            Scaling.X10000 => 1.0,
             _ => 1.0
         };
 
