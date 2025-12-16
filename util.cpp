@@ -66,7 +66,7 @@ uint16_t getOutputValue(uint16_t raw, size_t idx, bool ntc)
     }
     else
     {
-        float value = interpolateSensor(static_cast<float>(raw / 1000.0f), g_analogConfig);
+        float value = interpolateSensor(static_cast<float>(raw), g_analogConfig);
         switch (factor)
         {
         case scaling::x1:

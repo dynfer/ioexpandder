@@ -789,7 +789,15 @@ namespace UsbCdcConfigApp
                         factorText = "—";
                     }
 
-                    double disp = _rawValues[ch] / divisor;
+                    double disp;
+                    if (ch < NUM_ANALOG)
+                    {
+                        disp = _rawValues[ch] / divisor;
+                    }
+                    else
+                    {
+                        disp = (int)_rawValues[ch] - 100;
+                    }
 
                     var row = _liveGrid.Rows[ch];
                     row.Cells["v"].Value = v.ToString("0.000");
