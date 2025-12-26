@@ -19,7 +19,8 @@ enum class apiresponse : uint8_t
     avCalsVoltResponse = 0x44,
     ntcCalsResponse = 0x55,
     ntcCalsTempResponse = 0x66,
-    factorResponse = 0x77
+    factorResponse = 0x77,
+    pullupResponse = 0x88,
 };
 
 class api
@@ -32,7 +33,8 @@ private:
     std::array<uint8_t, 49> m_ntcCals;
     std::array<uint8_t, 25> m_ntcCalsTemp;
     std::array<uint8_t, 7> m_factors;
-    std::array<uint8_t, 25 + 25 + 49 + 25 + 7> m_calsBuffer;
+    std::array<uint8_t, 5> m_pullups;
+    std::array<uint8_t, 25 + 25 + 49 + 25 + 7 + 5> m_calsBuffer;
 public:
     api();
     void getData();

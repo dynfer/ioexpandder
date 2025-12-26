@@ -49,6 +49,10 @@ configAnalog::configAnalog()
         ntcCal.t2 = 18;
         ntcCal.t3 = 70;
     }
+    for (auto &pu : m_digitalPullups)
+    {
+        pu = pullupVolt::None;
+    }
 }
 
 bool config::isFlashValid() const

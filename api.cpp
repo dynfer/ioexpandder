@@ -12,6 +12,7 @@ api::api()
     m_ntcCalsTemp.fill(0);
     m_calsBuffer.fill(0);
     m_factors.fill(0);
+    m_pullups.fill(0);
     m_outVals[0] = static_cast<uint8_t>(apiresponse::dataResponse);
     m_outVolts[0] = static_cast<uint8_t>(apiresponse::voltsResponse);
     m_avCals[0] = static_cast<uint8_t>(apiresponse::avCalsResponse);
@@ -19,6 +20,7 @@ api::api()
     m_ntcCals[0] = static_cast<uint8_t>(apiresponse::ntcCalsResponse);
     m_ntcCalsTemp[0] = static_cast<uint8_t>(apiresponse::ntcCalsTempResponse);
     m_factors[0] = static_cast<uint8_t>(apiresponse::factorResponse);
+    m_pullups[0] = static_cast<uint8_t>(apiresponse::pullupResponse);
 }
 
 void api::getData()
@@ -101,6 +103,11 @@ void api::getCals()
         const analogCal &cal = g_config.getAnalogConfig(i - 1);
         m_factors[i] = static_cast<uint8_t>(cal.factor);
     }
+    for (size_t i = 1; i < m_pullups.size(); i++)
+    {
+        const pullupVolt pu = g_config.getDigitalPullup(i - 1);
+        m_pullups[i] = static_cast<uint8_t>(pu);
+    }
 
 }
 
@@ -117,6 +124,7 @@ void api::sendCals()
     chnWrite(&SDU1, m_ntcCals.data(), m_ntcCals.size());
     chnWrite(&SDU1, m_ntcCalsTemp.data(), m_ntcCalsTemp.size());
     chnWrite(&SDU1, m_factors.data(), m_factors.size());
+    chnWrite(&SDU1, m_pullups.data(), m_pullups.size());
 }
 
 void api::writeCals()
@@ -148,7 +156,8 @@ void api::writeCals()
         m_calsBuffer[25] != static_cast<uint8_t>(apiresponse::avCalsVoltResponse) ||
         m_calsBuffer[50] != static_cast<uint8_t>(apiresponse::ntcCalsResponse) ||
         m_calsBuffer[99] != static_cast<uint8_t>(apiresponse::ntcCalsTempResponse) ||
-        m_calsBuffer[124] != static_cast<uint8_t>(apiresponse::factorResponse))
+        m_calsBuffer[124] != static_cast<uint8_t>(apiresponse::factorResponse) ||
+        m_calsBuffer[131] != static_cast<uint8_t>(apiresponse::pullupResponse))
     {
         return;
     }
@@ -161,6 +170,7 @@ void api::writeCals()
     // 50..98   : NTC resistances(id + 4*(r1,r2,r3))
     // 99..123  : NTC temps      (id + 4*(t1,t2,t3))
     // 124..130 : Scaling factors(id + factor)
+    // 131..135 : Digital pullups(id + pullup)
 
     // --- Analog value calibration (low/high cal) ---
     for (size_t i = 1; i < m_avCals.size(); i += 4)
@@ -213,6 +223,14 @@ void api::writeCals()
         analogCal cal = g_config.getAnalogConfig(idx);
         cal.factor = static_cast<scaling>(m_calsBuffer[FACTORS_BASE + i]);
         g_config.setAnalogConfig(idx, cal);
+    }
+
+    constexpr size_t PULLUPS_BASE = 131;
+    for (size_t i = 1; i < m_pullups.size(); i++)
+    {
+        const size_t idx = i - 1;
+        pullupVolt pu = static_cast<pullupVolt>(m_calsBuffer[PULLUPS_BASE + i]);
+        g_config.setDigitalPullup(idx, pu);
     }
 
     g_config.save();

@@ -75,11 +75,6 @@ private:
 public:
     output(ioportid_t port, iopadid_t pad, uint8_t channel);
     void toggleOutput(bool state);
-    void enablePwm(bool enable)
-    {
-        if (m_channel != 0)
-            m_isPwm = enable;
-    }
     void setPwmDc(uint8_t dc) { m_currentDc = dc; };
 };
 
@@ -102,7 +97,6 @@ public:
     uint16_t getAnalogVolt(uint8_t index) const { return m_analogInputs[index].getVoltage(); };
     uint16_t getAnalogTempVolt(uint8_t index) const { return m_analogTempInputs[index].getVoltage(); };
     void setOutputDc(uint8_t index, uint8_t dc) { m_outputs[index].setPwmDc(dc); };
-    void enableOutputPwm(uint8_t index, bool enable) { m_outputs[index].enablePwm(enable); };
     void toggleOutput(uint8_t index, bool state) { m_outputs[index].toggleOutput(state); };
     bool getDigitalInputState(uint8_t index) const { return m_digitalInputs[index].getState(); };
     void checkDigitalStates();

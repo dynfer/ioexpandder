@@ -14,7 +14,7 @@ static void CanRxThread(void *arg)
     event_listener_t el_can_rx;
     chEvtRegister(&CAND1.rxfull_event, &el_can_rx, 1);
 
-    inputs& g_inputs = getInputs();
+    inputs &g_inputs = getInputs();
 
     chRegSetThreadName("CAN RX Thread");
 
@@ -27,8 +27,11 @@ static void CanRxThread(void *arg)
             {
                 for (size_t i = 0; i < 4; i++)
                 {
-                    outputToggles[i] = (rxmsg.data8[0] & (1U << i)) != 0;
-                    if (i != 0)
+                    if (i == 0)
+                    {
+                        outputToggles[i] = (rxmsg.data8[0] & (1U << i)) != 0;
+                    }
+                    else
                     {
                         g_inputs.setOutputDc(i, std::clamp(rxmsg.data8[i], static_cast<uint8_t>(0), static_cast<uint8_t>(100)));
                     }
@@ -51,6 +54,7 @@ static void CanTxThread(void *arg)
     CANTxFrame txmsg1 = {};
     CANTxFrame txmsg2 = {};
     CANTxFrame txmsg3 = {};
+    CANTxFrame txmsg4 = {};
     txmsg1.IDE = CAN_IDE_STD;
     txmsg1.RTR = CAN_RTR_DATA;
     txmsg1.SID = 0xBA;
@@ -63,8 +67,16 @@ static void CanTxThread(void *arg)
     txmsg3.RTR = CAN_RTR_DATA;
     txmsg3.SID = 0xBC;
     txmsg3.DLC = 8;
+    txmsg4.IDE = CAN_IDE_STD;
+    txmsg4.RTR = CAN_RTR_DATA;
+    txmsg4.SID = 0xAB;
+    txmsg4.DLC = 4;
+    txmsg4.data8[0] = 0b00001111;
+    txmsg4.data8[1] = 25U;
+    txmsg4.data8[2] = 50U;
+    txmsg4.data8[3] = 75U;
 
-    inputs& g_inputs = getInputs();
+    inputs &g_inputs = getInputs();
 
     while (true)
     {
@@ -85,14 +97,15 @@ static void CanTxThread(void *arg)
             }
             if (i == 5)
             {
-                for(size_t j = 0; j < 4; j++)
-                { 
+                for (size_t j = 0; j < 4; j++)
+                {
                     txmsg3.data8[i - 1 + j] = g_inputs.getDigitalInputState(j);
                 }
             }
         }
         canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg2, TIME_IMMEDIATE);
         canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg3, TIME_IMMEDIATE);
+        canTransmit(&CAND1, CAN_ANY_MAILBOX, &txmsg4, TIME_IMMEDIATE);
         chThdSleepMilliseconds(20);
     }
 }

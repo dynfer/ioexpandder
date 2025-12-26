@@ -34,7 +34,14 @@ output::output(ioportid_t port, iopadid_t pad, uint8_t channel)
     m_port = port;
     m_pad = pad;
     m_currentDc = 0;
-    m_isPwm = false;
+    if (channel != 0)
+    {
+        m_isPwm = true;
+    }
+    else
+    {
+        m_isPwm = false;
+    }
     m_channel = channel;
     if (m_channel != 0)
     {
