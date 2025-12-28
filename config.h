@@ -91,3 +91,24 @@ public:
 };
 
 config &getConfig();
+
+class pullup
+{
+private:
+    ioportid_t m_port;
+    iopadid_t m_pad;
+public:
+    pullup(ioportid_t port, iopadid_t pad);
+    void setHigh() { palSetPad(m_port, m_pad); };
+    void setLow() { palClearPad(m_port, m_pad); };
+};
+
+class pullupsStore
+{
+private:
+    std::array<pullup, 4> m_5vpullups;
+    std::array<pullup, 4> m_12vpullups;
+public:
+    pullupsStore();
+    void setPullup(size_t idx, pullupVolt pu);
+};
